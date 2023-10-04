@@ -1,9 +1,7 @@
 from django.contrib import admin
-
-#  09-24
 from .models import Post
 
-admin.site.register(Post)
-
-
+#  09-24
 # Register your models here.
+
+admin.site.register(Post)
