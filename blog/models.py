@@ -17,5 +17,11 @@ class Post(models.Model):
     # 수정시간을 업데이트 했을때, 수정 현재시각으로 교체
     update_at = models.DateTimeField(auto_now=True)
 
+    #이미지 필드 추가
+    head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d/', blank=True)
+
     def __str__(self):
         return f'[{self.pk}]{self.title}'
+
+    def get_absolute_url(self):
+        return f'/blog/{self.pk}/'
