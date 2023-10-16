@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>블로그 리스트입니다</title>
+    <title>Blog</title>
     <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}" media="screen">
     <script src="https://kit.fontawesome.com/726bbd6862.js" crossorigin="anonymous"></script>
 </head>
@@ -11,21 +11,19 @@
     <!-- Nav -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="./index.html">Do It Django</a>
+            <a class="navbar-brand" href="../">Do It Django</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="./index.html">Home <span class="sr-only">(current)</span></a>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="../blog">Blog</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./blog_list.html">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./about_me.html">About Me</a>
+                        <a class="nav-link" href="../about_me/">About Me</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -81,24 +79,35 @@
 
    <div class="container my-3">
         <div class="row">
-            <div class="col-md-8 col-lg-9">
-            {% for p in post_list %}
-                       <!-- Blog Post -->
-                        <div class="card mb-4">
-                            <img class="card-img-top" src="{{ p.head_image.url }}" alt="Card image cap">
-                            <div class="card-body">
-                                <h2 class="card-title">{{ p.title }}</h2>
-                                <p class="card-text">{{ p.content }}}</p>
-                                <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
-                            </div>
-                            <div class="card-footer text-muted">
-                                Posted on {{ p.create_at }}
-                                <a href="#">개발예정</a>
-                            </div>
-                        </div>
-          {% endfor %}
+            <div class="col-md-8 col-lg-9" id="main-area">
+            {% if post_list.exists %}
 
+                {% for p in post_list %}
+                           <!-- Blog Post -->
+                            <div class="card mb-4">
+                                {% if p.head_image %}
+                                <img class="card-img-top" src="{{ p.head_image.url }}" alt="Card image cap">
+                                {% else %}
+                                <img class="card-img-top" src="https://picsum.photos/seed/{{ p.id }}/800/200" alt="random_image">
+                                {% endif %}
+                                <div class="card-body">
 
+                                    <h2 class="card-title">{{ p.title }}</h2>
+                                    {% if p.hook_text %}
+                                        <h5 class="text-muted">{{ p.hook_text }} </h5>
+                                    {% endif %}
+                                    <p class="card-text">{{ p.content | truncatewords:20 }}</p>
+                                    <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    Posted on {{ p.create_at }}
+                                    <a href="#">개발예정</a>
+                                </div>
+                            </div>
+              {% endfor %}
+            {% else %}
+                <h3>no item</h3>
+            {% endif %}
                 <!-- Pagination -->
                 <ul class="pagination justify-content-center mb-4">
                     <li class="page-item">

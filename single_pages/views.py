@@ -4,5 +4,13 @@ from django.views.generic import ListView, DetailView
 
 # Create your views here.
 
-class PostDetail(DetailView):
-    model = Post
+def landing(request):
+    return render(
+        request,
+        'single_pages/landing.html'
+    )
+def about_me(request):
+    return render(
+        request,
+        'single_pages/about_me.html'
+    )
